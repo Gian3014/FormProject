@@ -1,0 +1,181 @@
+<div class="container">
+    <h3>Template-Driven Form</h3>
+    <form (ngSubmit)="onSubmit()" #form="ngForm" [hidden]="submitted">
+        <!-- Vorname -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="vorname">Vorname</label>
+                <!-- Text und - erlaubt -->
+                <input id="vorname" type="text" pattern="[-a-zA-Z\s]*" required [(ngModel)]="modelFilled.vorname"
+                    name="vorname" #vorname="ngModel"
+                    [ngClass]="{'inputValid': vorname.valid, 'inputError': !vorname.valid}">
+            </div>
+            <!-- Falls nicht valid wird angezeigt -->
+            <div [hidden]="vorname.valid || vorname.pristine" class="alert alert-danger">
+                Vorname darf keine Zahlen/Sonderzeichen enthalten & is required
+            </div>
+        </div>
+        <!-- Nachname -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="nachname">Nachname</label>
+                <!-- Text und - erlaubt -->
+                <input id="nachname" type="text" pattern="[-a-zA-Z\s]*" required [(ngModel)]="modelFilled.name"
+                    name="name" #name="ngModel" [ngClass]="{'inputValid': name.valid, 'inputError': !name.valid}">
+            </div>
+            <!-- Falls nicht valid wird angezeigt -->
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Nachname darf keine Zahlen/Sonderzeichen enthalten & is required
+            </div>
+        </div>
+        <!-- Strasse -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="strasse">Strasse</label>
+                <!-- Alles erlaubt, required -->
+                <input id="strasse" type="text" required [(ngModel)]="modelFilled.adress.street" name="street"
+                    #street="ngModel" [ngClass]="{'inputValid': street.valid, 'inputError': !street.valid}">
+            </div>
+            <div [hidden]="street.valid || street.pristine" class="alert alert-danger">
+                Strasse is required
+            </div>
+        </div>
+        <!-- Postleizahl -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="postleizahl">Postleizahl</label>
+                <!-- Nur Nummern & 4 Ziffern mit pattern & required-->
+                <input id="postleizahl" type="text" required [(ngModel)]="modelFilled.adress.postCode"
+                    name="postleizahl" #postleizahl="ngModel" pattern="[0-9]{4}" maxlength="4"
+                    [ngClass]="{'inputValid': postleizahl.valid, 'inputError': !postleizahl.valid}">
+            </div>
+            <!-- Falls nicht valid wird angezeigt -->
+            <div [hidden]="postleizahl.valid || postleizahl.pristine" class="alert alert-danger">
+                Postleizahl muss eine vierstellige Zahl sein
+            </div>
+        </div>
+        <!-- Ort -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="ort">Ort</label>
+                <!-- Nur Buchstaben mit pattern & required -->
+                <input id="ort" type="text" required [(ngModel)]="modelFilled.adress.location" name="ort" #ort="ngModel"
+                    pattern="[A-Za-z]*" [ngClass]="{'inputValid': ort.valid, 'inputError': !ort.valid}">
+            </div>
+            <div [hidden]="ort.valid || ort.pristine" class="alert alert-danger">
+                Ort darf keine Zahlen enthalten und ist required
+            </div>
+        </div>
+        <!-- Grösse -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="groesse">Grösse</label>
+                <!-- Default value & Required -->
+                <select id="groesse" required name="groesse">
+                    <option *ngFor="let size of sizes" [(ngModel)]="modelFilled.shirtSize" [value]="size">{{size}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!-- zweite Lieferadresse -->
+        <!-- TODO neue Adresse wenn nicht angekreuzt -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="checkbox">Selbe Lieferadresse wie Rechnungsadresse</label>
+                <input type="checkbox" id="checkbox" name="checkbox" (change)="onCheck()" [defaultChecked]="true">
+                <!-- Falls Checkbox True -> neue Angabe für Adresse anzeigen -->
+            </div>
+            <!-- zweite Adresse -->
+            <div [hidden]="!sameAdress">
+                <!-- Strasse -->
+                <div class="form-group">
+                    <div class="inputContainer">
+                        <label for="strasse2">Strasse von Lieferadresse</label>
+                        <!-- Alles erlaubt, required -->
+                        <input id="strasse2" type="text" required [(ngModel)]="secondAdress.street" name="street2"
+                            #street2="ngModel" [ngClass]="{'inputValid': street2.valid, 'inputError': !street2.valid}">
+                    </div>
+                    <div [hidden]="street2.valid || street2.pristine" class="alert alert-danger">
+                        Strasse is required
+                    </div>
+                </div>
+                <!-- Postleizahl -->
+                <div class="form-group">
+                    <div class="inputContainer">
+                        <label for="postleizahl2">Postleizahl von Lieferadresse</label>
+                        <!-- Nur Nummern & 4 Ziffern mit pattern & required-->
+                        <input id="postleizahl2" type="text" required [(ngModel)]="secondAdress.postCode"
+                            name="postleizahl2" #postleizahl2="ngModel" pattern="[0-9]{4}" maxlength="4"
+                            [ngClass]="{'inputValid': postleizahl2.valid, 'inputError': !postleizahl2.valid}">
+                    </div>
+                    <!-- Falls nicht valid wird angezeigt -->
+                    <div [hidden]="postleizahl2.valid || postleizahl2.pristine" class="alert alert-danger">
+                        Postleizahl muss eine vierstellige Zahl sein
+                    </div>
+                </div>
+                <!-- Ort -->
+                <div class="form-group">
+                    <div class="inputContainer">
+                        <label for="ort2">Ort</label>
+                        <!-- Nur Buchstaben mit pattern & required -->
+                        <input id="ort2" type="text" required [(ngModel)]="secondAdress.location" name="ort2"
+                            #ort2="ngModel" pattern="[A-Za-z]*"
+                            [ngClass]="{'inputValid': ort2.valid, 'inputError': !ort2.valid}">
+                    </div>
+                    <div [hidden]="ort2.valid || ort2.pristine" class="alert alert-danger">
+                        Ort darf keine Zahlen enthalten und ist required
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Passwort -->
+        <!-- TODO validieren -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="passwort">Passwort</label>
+                <input id="passwort" type="password" required [(ngModel)]="modelFilled.password" name="passwort"
+                    #passwort="ngModel">
+            </div>
+            <div [hidden]="passwort.valid || passwort.pristine" class="alert alert-danger">
+                Passwort is required
+            </div>
+        </div>
+        <!-- Passwort wiederholen -->
+        <!-- TODO validieren -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="passwort2">Passwort wiederholen</label>
+                <!-- Custom Directive schreiben -> 2 passwörter überprüfen -->
+                <!-- onkeyDown überprüft beide Passwörter -->
+                <input id="passwort2" type="password" [(ngModel)]="pw2" required name="passwort2" #passwort2
+                    (blur)="comparePasswords()">
+            </div>
+            <div [hidden]="modelFilled.password === pw2" class="alert alert-danger">
+                Passwörter stimmen nicht überein
+            </div>
+        </div>
+        <!-- Email -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="email">Email</label>
+                <input id="email" type="email" required [(ngModel)]="modelFilled.email" name="email" #email="ngModel">
+            </div>
+            <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                Email is required
+            </div>
+        </div>
+        <!-- Zahlungsart -->
+        <div class="form-group">
+            <fieldset>
+                <legend>Zahlungsart</legend>
+                <label for="zahlungsart">mit Kreditkarte</label>
+                <!-- TODO Wieso ist das nicht default checked? -->
+                <input type="radio" name="zahlungsart" value="Kreditkarte" checked [(ngModel)]="modelFilled.payment">
+                <label for="zahlungsart">Auf Rechnung</label>
+                <input type="radio" name="zahlungsart" value="Kreditkarte" [(ngModel)]="modelFilled.payment">
+            </fieldset>
+        </div>
+        <button [disabled]="!form.form.valid">Speichern</button>
+    </form>
+    <h3 [hidden]="!submitted">Form has been submitted</h3>
+</div>

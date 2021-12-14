@@ -1,0 +1,125 @@
+<div class="container">
+    <h3>Reactive Form</h3>
+    <form [formGroup]="profileForm">
+        <!-- Vorname -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="vorname">Vorname</label>
+                <!-- Text und - erlaubt -->
+                <input id="vorname" type="text" formControlName="vorname">
+            </div>
+            <!-- Falls nicht valid wird angezeigt -->
+            <!-- <div [hidden]="vorname.valid || vorname.pristine" class="alert alert-danger">
+                Vorname darf keine Zahlen/Sonderzeichen enthalten & is required
+            </div> -->
+        </div>
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="nachname">Nachname</label>
+                <!-- Text und - erlaubt -->
+                <input id="nachname" type="text" formControlName="nachname">
+            </div>
+            <!-- Falls nicht valid wird angezeigt -->
+            <!-- <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                Nachname darf keine Zahlen/Sonderzeichen enthalten & is required
+            </div> -->
+        </div>
+        <!-- Strasse -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="strasse">Strasse</label>
+                <!-- Alles erlaubt, required -->
+                <input id="strasse" type="text" formControlName="street1">
+            </div>
+            <!-- <div [hidden]="street.valid || street.pristine" class="alert alert-danger">
+                Strasse is required
+            </div> -->
+        </div>
+        <!-- Postleizahl -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="postleizahl">Postleizahl</label>
+                <!-- Nur Nummern & 4 Ziffern mit pattern & required-->
+                <input id="postleizahl" type="text" formControlName="postcode1">
+            </div>
+            <!-- Falls nicht valid wird angezeigt -->
+            <!-- <div [hidden]="postleizahl.valid || postleizahl.pristine" class="alert alert-danger">
+                Postleizahl muss eine vierstellige Zahl sein
+            </div> -->
+        </div>
+        <!-- Ort -->
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="ort">Ort</label>
+                <!-- Nur Buchstaben mit pattern & required -->
+                <input id="ort" type="text" formControlName="location1">
+            </div>
+            <!-- <div [hidden]="ort.valid || ort.pristine" class="alert alert-danger">
+                Ort darf keine Zahlen enthalten und ist required
+            </div> -->
+        </div>
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="groesse">Grösse</label>
+                <!-- Default value & Required -->
+                <select id="groesse">
+                    <option *ngFor="let size of sizes" [value]="size" formControlName="size">{{size}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="inputContainer">
+                <label for="checkbox">Selbe Lieferadresse wie Rechnungsadresse</label>
+                <input type="checkbox" id="checkbox">
+                <!-- Falls Checkbox True -> neue Angabe für Adresse anzeigen -->
+            </div>
+            <!-- zweite Adresse -->
+            <div>
+                <div class="form-group">
+                    <div class="inputContainer">
+                        <label for="strasse2">Strasse von Lieferadresse</label>
+                        <!-- Alles erlaubt, required -->
+                        <input id="strasse2" type="text" formControlName="street2">
+                    </div>
+                    <!-- <div [hidden]="street2.valid || street2.pristine" class="alert alert-danger">
+                        Strasse is required
+                    </div> -->
+                </div>
+                <!-- Postleizahl -->
+                <div class="form-group">
+                    <div class="inputContainer">
+                        <label for="postleizahl2">Postleizahl von Lieferadresse</label>
+                        <!-- Nur Nummern & 4 Ziffern mit pattern & required-->
+                        <input id="postleizahl2" type="text" formControlName="postcode2">
+                    </div>
+                    <!-- Falls nicht valid wird angezeigt -->
+                    <!-- <div [hidden]="postleizahl2.valid || postleizahl2.pristine" class="alert alert-danger">
+                        Postleizahl muss eine vierstellige Zahl sein
+                    </div> -->
+                </div>
+                <!-- Ort -->
+                <div class="form-group">
+                    <div class="inputContainer">
+                        <label for="ort2">Ort</label>
+                        <!-- Nur Buchstaben mit pattern & required -->
+                        <input id="ort2" type="text" formControlName="location2">
+                    </div>
+                    <!-- <div [hidden]="ort2.valid || ort2.pristine" class="alert alert-danger">
+                        Ort darf keine Zahlen enthalten und ist required
+                    </div> -->
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="inputContainer">
+                    <label for="passwort">Passwort</label>
+                    <input id="passwort" type="password" form="password">
+                </div>
+                <!-- <div [hidden]="passwort.valid || passwort.pristine" class="alert alert-danger">
+                    Passwort is required
+                </div> -->
+            </div>
+        </div>
+        <button [disabled]="!profileForm.valid">Speichern</button>
+    </form>
+</div>
